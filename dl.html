@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Truc Do — Deep Learning</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-dot"></div>
+    Truc Do
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">About</a>
+    <a class="nav-link" href="stats.html">Statistics</a>
+    <a class="nav-link" href="ml.html">Machine Learning</a>
+    <a class="nav-link active" href="dl.html">Deep Learning</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     PAGE INTRO
+     ─── EDIT INTRO TEXT HERE ───
+═══════════════════════════════════════════ -->
+<div class="page-intro">
+  <div class="page-intro-inner">
+    <div class="section-label">03 — Deep Learning</div>
+    <h1>Deep Learning</h1>
+    <p class="page-intro-desc">
+      Deep learning is about learning representations directly from raw data — pixels, text,
+      audio — using layered neural networks. Click any node in the mindmap below to open
+      a full explanation panel with theory, datasets, and runnable code.
+    </p>
+  </div>
+</div>
+<!-- ─── END INTRO ─── --> 
+
+<!-- ═══════════════════════════════════════════
+     MINDMAP
+═══════════════════════════════════════════ -->
+<div class="wrap section">
+  <div class="section-label">Mindmap</div>
+  <div class="section-title">All architectures</div>
+  <div class="section-sub">Click a node to open its explanation. Drag to pan · scroll to zoom.</div>
+
+  <div id="mindmap-wrap">
+    <canvas id="mindmap-canvas"></canvas>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       ARCHITECTURE DETAIL PANEL
+       Filled dynamically by JS when a node is clicked.
+  ═══════════════════════════════════════════ -->
+  <div class="detail-panel" id="dl-detail-panel">
+    <div class="panel-header">
+      <div class="panel-tag"   id="panel-tag">Architecture</div>
+      <div class="panel-title" id="panel-title">—</div>
+      <div class="panel-close" onclick="closePanel()">&#10005;</div>
+    </div>
+    <div class="panel-tabs">
+      <button class="tab-btn active" onclick="switchTab('explain',this)">Explanation</button>
+      <button class="tab-btn"        onclick="switchTab('dataset',this)">Datasets</button>
+      <button class="tab-btn"        onclick="switchTab('code',this)">Code</button>
+    </div>
+    <div id="tab-explain" class="tab-content active"></div>
+    <div id="tab-dataset" class="tab-content"></div>
+    <div id="tab-code"    class="tab-content"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       OTHER ARCHITECTURES — coming soon list
+       ─── ADD / EDIT ROWS HERE ───
+       To make a row open a panel:
+         1. Add onclick="openNodeById('your-id')" to the row div
+         2. Add an else-if branch in openNodePanel() in dl.js
+         3. Write fill functions (fillYourArchExplain etc.)
+  ═══════════════════════════════════════════ -->
+  <div style="margin-top:3.5rem">
+    <div class="section-label">Other architectures</div>
+    <div class="section-title">Coming soon</div>
+    <div style="margin-top:1.25rem; display:grid; grid-template-columns:1fr 1fr; gap:9px">
+
+      <div class="coming-soon-node">
+        <div class="csn-dot" style="background:#a78bfa"></div>
+        <div>
+          <div class="csn-name">Transformers &amp; LLMs</div>
+          <div class="csn-desc">BERT, GPT, ViT, attention mechanism</div>
+        </div>
+        <div class="csn-badge">Add content ↗</div>
+      </div>
+
+      <div class="coming-soon-node">
+        <div class="csn-dot" style="background:#f59e0b"></div>
+        <div>
+          <div class="csn-name">GANs</div>
+          <div class="csn-desc">StyleGAN, CycleGAN, image synthesis</div>
+        </div>
+        <div class="csn-badge">Add content ↗</div>
+      </div>
+
+      <div class="coming-soon-node">
+        <div class="csn-dot" style="background:#34d399"></div>
+        <div>
+          <div class="csn-name">RNNs &amp; LSTMs</div>
+          <div class="csn-desc">Sequence modelling, GRU, Seq2Seq</div>
+        </div>
+        <div class="csn-badge">Add content ↗</div>
+      </div>
+
+      <div class="coming-soon-node">
+        <div class="csn-dot" style="background:#22d3ee"></div>
+        <div>
+          <div class="csn-name">Diffusion Models</div>
+          <div class="csn-desc">DDPM, Stable Diffusion, score-based</div>
+        </div>
+        <div class="csn-badge">Add content ↗</div>
+      </div>
+
+      <div class="coming-soon-node">
+        <div class="csn-dot" style="background:#fb7185"></div>
+        <div>
+          <div class="csn-name">VAEs</div>
+          <div class="csn-desc">Variational autoencoders, latent space</div>
+        </div>
+        <div class="csn-badge">Add content ↗</div>
+      </div>
+
+      <div class="coming-soon-node">
+        <div class="csn-dot" style="background:#f97316"></div>
+        <div>
+          <div class="csn-name">Graph Neural Networks</div>
+          <div class="csn-desc">GCN, GAT, molecular modelling</div>
+        </div>
+        <div class="csn-badge">Add content ↗</div>
+      </div>
+
+      <!-- ─── ADD MORE ARCHITECTURES HERE ─── -->
+
+    </div>
+  </div>
+  <!-- ─── END OTHER ARCHITECTURES ─── -->
+
+</div>
+
+<footer>
+  <!--
+Source - https://stackoverflow.com/a/79083890
+Posted by xtcntr
+Retrieved 2026-03-13, License - CC BY-SA 4.0
+-->
+
+<a href="https://www.linkedin.com/in/nguyen-thien-truc-do-263109178/" aria-label="Visit Dove Digital on LinkedIn">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0A66C2" width="24" height="24">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+  </svg>
+</a>
+
+</footer>
+
+<script src="dl.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Truc Do — Machine Learning</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><div class="nav-logo-dot"></div>Truc Do</a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">About</a>
+    <a class="nav-link" href="stats.html">Statistics</a>
+    <a class="nav-link active" href="ml.html">Machine Learning</a>
+    <a class="nav-link" href="dl.html">Deep Learning</a>
+  </div>
+</nav>
+
+<!-- PAGE INTRO ─── EDIT INTRO TEXT HERE ─── -->
+<div class="page-intro">
+  <div class="page-intro-inner">
+    <div class="section-label">02 — Machine Learning</div>
+    <h1>Machine Learning</h1>
+    <p class="page-intro-desc">
+      Machine learning sits between statistics and engineering — learning patterns from data
+      to make predictions or decisions. I cover classical algorithms, model selection,
+      feature engineering, and evaluation, always with working code and real datasets.
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TOPIC CARDS
+     To add a clickable card:
+       1. Use class="topic-card" (no "coming")
+       2. Add onclick="openTopic('your-id')"
+       3. Write fill functions at the bottom
+═══════════════════════════════════════════ -->
+<div class="wrap section">
+  <div class="section-label">Topics</div>
+  <div class="section-title">Explore Machine Learning</div>
+  <div class="topics-grid">
+
+    <!-- Tree-Based Models — ACTIVE -->
+    <div class="topic-card" onclick="openTopic('trees')">
+      <div class="topic-accent" style="background:var(--green)"></div>
+      <div class="topic-title">Decision Trees &amp; Random Forests</div>
+      <div class="topic-desc">Splitting criteria, ensemble methods, feature importance, overfitting control.</div>
+      <div class="topic-tags">
+        <span class="tag">sklearn</span><span class="tag">Ensembles</span><span class="tag">Python</span>
+      </div>
+    </div>
+
+    <!-- COMING SOON -->
+    <div class="topic-card coming">
+      <div class="topic-accent" style="background:var(--accent)"></div>
+      <div class="topic-title">k-Nearest Neighbours</div>
+      <div class="topic-desc">Distance metrics, the curse of dimensionality, and when kNN shines.</div>
+      <div class="topic-tags"><span class="tag">Classification</span><span class="tag">Distance</span></div>
+    </div>
+
+    <div class="topic-card coming">
+      <div class="topic-accent" style="background:var(--amber)"></div>
+      <div class="topic-title">Support Vector Machines</div>
+      <div class="topic-desc">Margin maximisation, kernel trick, SVR — theory and scikit-learn walkthrough.</div>
+      <div class="topic-tags"><span class="tag">SVM</span><span class="tag">Kernel</span></div>
+    </div>
+
+    <div class="topic-card coming">
+      <div class="topic-accent" style="background:var(--coral)"></div>
+      <div class="topic-title">Gradient Boosting (XGBoost)</div>
+      <div class="topic-desc">Additive trees, learning rate, early stopping, Kaggle-proven pipelines.</div>
+      <div class="topic-tags"><span class="tag">XGBoost</span><span class="tag">LightGBM</span></div>
+    </div>
+
+    <div class="topic-card coming">
+      <div class="topic-accent" style="background:var(--teal)"></div>
+      <div class="topic-title">Clustering (k-Means, DBSCAN)</div>
+      <div class="topic-desc">Unsupervised pattern discovery, silhouette score, choosing k.</div>
+      <div class="topic-tags"><span class="tag">Unsupervised</span><span class="tag">k-Means</span></div>
+    </div>
+
+    <div class="topic-card coming">
+      <div class="topic-accent" style="background:var(--green)"></div>
+      <div class="topic-title">Dimensionality Reduction</div>
+      <div class="topic-desc">PCA, t-SNE, UMAP — compressing high-dimensional data for analysis and visualisation.</div>
+      <div class="topic-tags"><span class="tag">PCA</span><span class="tag">t-SNE</span><span class="tag">UMAP</span></div>
+    </div>
+
+    <div class="topic-card coming">
+      <div class="topic-accent" style="background:var(--accent2)"></div>
+      <div class="topic-title">Model Evaluation &amp; Selection</div>
+      <div class="topic-desc">Cross-validation, AUC-ROC, bias-variance trade-off, hyperparameter tuning.</div>
+      <div class="topic-tags"><span class="tag">CV</span><span class="tag">ROC</span><span class="tag">GridSearch</span></div>
+    </div>
+
+    <!-- ADD MORE TOPICS HERE -->
+
+  </div>
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="wrap" style="padding-bottom:4rem">
+  <div class="detail-panel" id="ml-panel">
+    <div class="panel-header">
+      <div class="panel-tag"   id="ml-panel-tag">Topic</div>
+      <div class="panel-title" id="ml-panel-title">—</div>
+      <div class="panel-close" onclick="closePanel()">&#10005;</div>
+    </div>
+    <div class="panel-tabs">
+      <button class="tab-btn active" onclick="switchTab('explain',this)">Explanation</button>
+      <button class="tab-btn"        onclick="switchTab('code',this)">Code</button>
+    </div>
+    <div id="tab-explain" class="tab-content active"></div>
+    <div id="tab-code"    class="tab-content"></div>
+  </div>
+</div>
+
+<footer>
+  <a href="https://www.linkedin.com/in/nguyen-thien-truc-do-263109178/" aria-label="Visit Dove Digital on LinkedIn">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0A66C2" width="24" height="24">
+      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+    </svg>
+  </a>
+  
+</footer>
+
+
+</body>
+</html>
