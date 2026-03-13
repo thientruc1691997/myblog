@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI for Elderly People — Truc Do</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+
+  <style>
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      font-size: .92rem;
+      text-decoration: none;
+    }
+
+    .project-hero {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 1.5rem;
+      align-items: stretch;
+      margin-bottom: 2rem;
+    }
+
+    .hero-card,
+    .image-card,
+    .content-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 1.5rem;
+    }
+
+    .image-card {
+      overflow: hidden;
+      min-height: 340px;
+    }
+
+    .image-card img {
+      width: 100%;
+      height: 100%;
+      min-height: 340px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: .42rem .75rem;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-family: var(--mono);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      background: var(--bg3);
+      color: var(--accent);
+      border: 1px solid var(--border);
+    }
+
+    .hero-title {
+      font-family: var(--display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.05;
+      margin-bottom: .9rem;
+    }
+
+    .hero-text {
+      color: var(--text2);
+      font-size: .97rem;
+      line-height: 1.85;
+      margin-bottom: .95rem;
+    }
+
+    .hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .8rem;
+      margin-top: 1.2rem;
+    }
+
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: .78rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text1);
+      font-size: .9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: .2s ease;
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .hero-btn.primary {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .blog-layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .toc-card {
+      position: sticky;
+      top: 100px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 1.2rem 1rem;
+    }
+
+    .toc-title {
+      font-family: var(--display);
+      font-size: 1rem;
+      margin-bottom: .9rem;
+    }
+
+    .toc-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: .4rem;
+    }
+
+    .toc-list a {
+      display: block;
+      padding: .6rem .7rem;
+      border-radius: 10px;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: .9rem;
+      transition: .2s ease;
+    }
+
+    .toc-list a:hover {
+      background: var(--bg3);
+      color: var(--accent);
+    }
+
+    .content-col {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .content-card {
+      padding: 1.4rem 1.45rem;
+    }
+
+    .card-kicker {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: .65rem;
+    }
+
+    .card-title {
+      font-family: var(--display);
+      font-size: 1.18rem;
+      font-weight: 700;
+      margin-bottom: .8rem;
+    }
+
+    .content-card p {
+      color: var(--text2);
+      font-size: .95rem;
+      line-height: 1.85;
+      margin-bottom: .9rem;
+    }
+
+    .content-card ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      color: var(--text2);
+      font-size: .95rem;
+      line-height: 1.85;
+    }
+
+    .content-card li {
+      margin-bottom: .5rem;
+    }
+
+    .team-list {
+      display: grid;
+      gap: .7rem;
+      margin-top: .75rem;
+    }
+
+    .team-member {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      padding: .75rem .85rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface2);
+      color: var(--text1);
+      font-size: .92rem;
+    }
+
+    .flag {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .team-role {
+      color: var(--text3);
+      font-size: .84rem;
+      margin-left: auto;
+    }
+
+    .memory-photo {
+      margin-top: 1rem;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .memory-photo img {
+      width: 100%;
+      display: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .note-box {
+      background: var(--accent-glow);
+      border: 1px solid rgba(91,82,245,.18);
+      border-radius: 14px;
+      padding: 1rem 1.05rem;
+      color: var(--text2);
+      line-height: 1.8;
+      font-size: .93rem;
+    }
+
+    .tech-table{
+        margin-top:1.2rem;
+        border:1px solid var(--border);
+        border-radius:14px;
+        overflow:hidden;
+      }
+      
+      .tech-row{
+        display:grid;
+        grid-template-columns:180px 1fr;
+        border-bottom:1px solid var(--border);
+      }
+      
+      .tech-row:last-child{
+        border-bottom:none;
+      }
+      
+      .tech-layer{
+        padding:12px 14px;
+        font-family:var(--mono);
+        font-size:12px;
+        color:var(--accent);
+        background:var(--bg3);
+      }
+      
+      .tech-stack{
+        padding:12px 14px;
+        font-size:14px;
+        color:var(--text2);
+      }
+
+    @media (max-width: 980px) {
+      .project-hero,
+      .blog-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .toc-card {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><div class="nav-logo-dot"></div>Truc Do</a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">About</a>
+    <a class="nav-link" href="stats.html">Statistics</a>
+    <a class="nav-link" href="ml.html">Machine Learning</a>
+    <!-- <a class="nav-link" href="dl.html">Deep Learning</a> -->
+    <a class="nav-link active" href="projects.html">Projects</a>
+  </div>
+</nav>
+
+<div class="page-intro">
+  <div class="page-intro-inner">
+    <a class="back-link" href="projects.html">← Back to Projects</a>
+    <div class="section-label">04 — Projects</div>
+    <h1>AI for Elderly People</h1>
+    <p class="page-intro-desc">
+      A hackathon project built for NextLevelChallenge in Leuven.
+      This project is not finished yet, but it is one of the most memorable experiences in my journey.
+    </p>
+  </div>
+</div>
+
+<div class="wrap section">
+
+  <section class="project-hero">
+    <div class="hero-card">
+      <div class="badge-row">
+        <span class="project-badge">Hackathon</span>
+        <span class="project-badge">AI</span>
+        <span class="project-badge">Healthcare</span>
+        <span class="project-badge">Prototype</span>
+      </div>
+
+      <div class="hero-title">A memorable 24-hour idea in Leuven</div>
+
+      <p class="hero-text">
+        <p>
+            This project was created during a hackathon organized by 
+            <a href="https://www.linkedin.com/company/next-leuven" target="_blank" rel="noopener">
+              NextLeuven
+            </a>.
+          </p>
+        Our challenge was to design a prototype and present the idea within 24 hours in Leuven.
+      </p>
+
+      <p class="hero-text">
+        The project is still not complete, and I will update it later.
+        But I already want to keep this page as a memory of the people, the journey, and the idea we built together.
+      </p>
+
+      <p class="hero-text">
+        The biggest reward from this experience was not only the competition itself.
+        It was teamwork, creativity, and the way we solved problems together under pressure.
+      </p>
+
+      <div class="hero-links">
+        <a class="hero-btn primary" href="https://github.com/thientruc1691997/ai-companion-elderly" target="_blank">View GitHub ↗</a>
+        <a class="hero-btn" href="#story">Read story</a>
+        <a class="hero-btn" href="#idea">See the idea</a>
+      </div>
+    </div>
+
+    <div class="image-card">
+      <img src="images/elderly-ai-cover.jpg" alt="AI for elderly people project cover">
+    </div>
+  </section>
+
+  <div class="blog-layout">
+    <aside class="toc-card">
+      <div class="toc-title">Contents</div>
+      <ol class="toc-list">
+        <li><a href="#story">The story</a></li>
+        <li><a href="#team">Our team</a></li>
+        <li><a href="#idea">Project idea</a></li>
+        <li><a href="#built">What we built</a></li>
+        <li><a href="#techniques">Techniques</a></li>
+        <li><a href="#future">Next update</a></li>
+      </ol>
+    </aside>
+
+    <div class="content-col">
+
+      <section class="content-card" id="story">
+        <div class="card-kicker">Story</div>
+        <div class="card-title">Two unforgettable days from Hasselt to Leuven</div>
+
+        <p>
+          This project is very special to me because it is not only about technology.
+          It is also about the people and the journey behind it.
+        </p>
+
+        <p>
+          We travelled from Hasselt to Leuven, and there was a train strike.
+        <p>
+            During the trip there were many small moments that I still remember. 
+            At one point Luis managed to jump onto the train with only about 30 seconds left before the doors closed. 
+        </p>     
+        <p>
+            Another memory I always think about is Sadia. She lives in Antwerp, but because the trains were no longer running normally, 
+            she came back with us to Hasselt that night. Before that, she had already prepared a very beautiful outfit for the presentation the next day. 
+            Because of the travel situation, everything became more complicated than expected.
+        </p>
+            
+        <p>
+          These small moments made the experience feel very real.
+          It was messy, tiring, funny, and unforgettable at the same time.
+        </p>
+
+        <div class="memory-photo">
+          <img src="images/team-leuven.jpg" alt="Team memory from Leuven hackathon">
+        </div>
+      </section>
+
+      <section class="content-card" id="team">
+        <div class="card-kicker">Team</div>
+        <div class="card-title">The 5 people in our team</div>
+
+        <p>
+          We were a team of five, coming from different countries.
+          I really enjoyed working with everyone.
+        </p>
+
+        <div class="team-list">
+          <div class="team-member"><span class="flag">🇻🇳</span><span>Truc Do</span><span class="team-role">Vietnam</span></div>
+          <div class="team-member"><span class="flag">🇵🇰</span><span>Sadia Parveen</span><span class="team-role">Pakistan</span></div>
+          <div class="team-member"><span class="flag">🇻🇳</span><span>Long Ngo</span><span class="team-role">Vietnam</span></div>
+          <div class="team-member"><span class="flag">🇪🇨</span><span>Luis César Herrera Paltán</span><span class="team-role">Ecuador</span></div>
+          <div class="team-member"><span class="flag">🇵🇰</span><span>Naheed Hidayat</span><span class="team-role">Pakistan</span></div>
+        </div>
+      </section>
+
+      <section class="content-card" id="idea">
+        <div class="card-kicker">Idea</div>
+        <div class="card-title">What our project was about</div>
+
+        <p>
+          Our idea was to build an AI companion that can support elderly people in daily life.
+          We wanted the system to feel helpful, simple, and human.
+        </p>
+
+        <p>
+          Many elderly people need support, but they do not always want a complicated application.
+          So we thought about one assistant that could do several helpful tasks in one place.
+        </p>
+
+        <ul>
+          <li>simple conversation and companionship</li>
+          <li>medication reminders</li>
+          <li>basic health support</li>
+          <li>emergency help</li>
+          <li>vision-based monitoring support</li>
+        </ul>
+      </section>
+
+      <section class="content-card" id="built">
+        <div class="card-kicker">Build</div>
+        <div class="card-title">What we managed to build</div>
+
+        <p>
+          Even though the project is still unfinished, we already built an early structure for the idea.
+          The repository shows a backend and frontend for the system.
+        </p>
+
+        <p>
+          The project uses a <strong>FastAPI backend</strong> and a <strong>React + Vite frontend</strong>.
+          It also connects different AI and application components together.
+        </p>
+
+        <ul>
+          <li>chat support for simple communication</li>
+          <li>vision support for monitoring and assistance</li>
+          <li>medication management</li>
+          <li>health dashboard</li>
+          <li>emergency support module</li>
+        </ul>
+
+        <div class="note-box">
+          This project page is written in a simple way on purpose.
+          Later, I will add more technical details, screenshots, and prototype sketches.
+        </div>
+      </section>
+
+      <section class="content-card" id="tech-stack">
+
+        <div class="card-kicker">Technology</div>
+        <div class="card-title">Tech stack used in the prototype</div>
+      
+        <p>
+          The prototype combines a lightweight web architecture with AI and computer vision tools.
+          The goal was to build something functional quickly during the hackathon while keeping the system flexible for future development.
+        </p>
+      
+        <div class="tech-table">
+          <div class="tech-row">
+            <div class="tech-layer">Backend</div>
+            <div class="tech-stack">Python 3.11 · FastAPI · Uvicorn</div>
+          </div>
+      
+          <div class="tech-row">
+            <div class="tech-layer">AI / LLM</div>
+            <div class="tech-stack">Claude API (Anthropic)</div>
+          </div>
+      
+          <div class="tech-row">
+            <div class="tech-layer">Vision</div>
+            <div class="tech-stack">YOLOv8 (Ultralytics) · MediaPipe Pose</div>
+          </div>
+      
+          <div class="tech-row">
+            <div class="tech-layer">Database</div>
+            <div class="tech-stack">SQLite · SQLAlchemy (async)</div>
+          </div>
+      
+          <div class="tech-row">
+            <div class="tech-layer">Frontend</div>
+            <div class="tech-stack">React 18 · Vite</div>
+          </div>
+      
+          <div class="tech-row">
+            <div class="tech-layer">Voice</div>
+            <div class="tech-stack">Web Speech API (browser native)</div>
+          </div>
+      
+          <div class="tech-row">
+            <div class="tech-layer">Realtime</div>
+            <div class="tech-stack">WebSocket</div>
+          </div>
+        </div>
+
+        <p>
+            The current prototype already includes the main sections:
+            voicechat, medication reminders, health support, emergency support, and dashboard views.
+        </p>
+        
+        <p>
+            My next step is to improve the backend and make the whole system more stable and more complete.
+        </p>
+      
+      </section>
+      
+
+      </section>
+
+      <section class="content-card" id="future">
+        <div class="card-kicker">Update later</div>
+        <div class="card-title">This project is not finished yet</div>
+
+        <p>
+          I will come back and update this page later.
+          For now, I want to keep the memory of the project and the experience.
+        </p>
+      </section>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Truc Do —
+  <a href="https://www.linkedin.com/in/nguyen-thien-truc-do-263109178/" target="_blank">LinkedIn</a> —
+  <a href="https://github.com/thientruc1691997" target="_blank">GitHub</a>
+</footer>
+
+</body>
+</html>

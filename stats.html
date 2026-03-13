@@ -15,7 +15,8 @@
     <a class="nav-link" href="index.html">About</a>
     <a class="nav-link active" href="stats.html">Statistics</a>
     <a class="nav-link" href="ml.html">Machine Learning</a>
-    <a class="nav-link" href="dl.html">Deep Learning</a>
+    <!-- <a class="nav-link" href="dl.html">Deep Learning</a> -->
+    <a class="nav-link" href="projects.html">Projects</a>
   </div>
 </nav>
 
@@ -33,26 +34,20 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     TOPIC CARDS
-     To add a clickable card:
-       1. Use class="topic-card" (no "coming")
-       2. Add onclick="openTopic('your-id')"
-       3. Write fill functions at the bottom
-═══════════════════════════════════════════ -->
+
 <div class="wrap section">
   <div class="section-label">Topics</div>
   <div class="section-title">Explore Statistics</div>
   <div class="topics-grid">
 
-    <div class="topic-card" onclick="openTopic('descriptive')">
+    <a class="topic-card" href="topic-descriptive.html">
       <div class="topic-accent" style="background:var(--accent)"></div>
       <div class="topic-title">Descriptive Statistics</div>
       <div class="topic-desc">Mean, median, variance, skewness, kurtosis — summarising data before modelling.</div>
       <div class="topic-tags">
         <span class="tag">R</span><span class="tag">Python</span><span class="tag">EDA</span>
       </div>
-    </div>
+    </a>
 
     <div class="topic-card coming">
       <div class="topic-accent" style="background:var(--green)"></div>
@@ -88,251 +83,12 @@
   </div>
 </div>
 
-<!-- DETAIL PANEL -->
-<div class="wrap" style="padding-bottom:4rem">
-  <div class="detail-panel" id="stats-panel">
-    <div class="panel-header">
-      <div class="panel-tag"   id="stats-panel-tag">Topic</div>
-      <div class="panel-title" id="stats-panel-title">—</div>
-      <div class="panel-close" onclick="closePanel()">&#10005;</div>
-    </div>
-    <div class="panel-tabs">
-      <button class="tab-btn active" onclick="switchTab('explain',this)">Explanation</button>
-      <button class="tab-btn"        onclick="switchTab('code',this)">Code</button>
-    </div>
-    <div id="tab-explain" class="tab-content active"></div>
-    <div id="tab-code"    class="tab-content"></div>
-  </div>
-</div>
-
 <footer>
-  <a href="https://www.linkedin.com/in/nguyen-thien-truc-do-263109178/" aria-label="Visit Dove Digital on LinkedIn">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0A66C2" width="24" height="24">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-    </svg>
-  </a>
-  
+  Truc Do &mdash;
+  <a href="https://www.linkedin.com/in/nguyen-thien-truc-do-263109178/" target="_blank">LinkedIn</a> &mdash;
+  <a href="https://github.com/thientruc1691997" target="_blank">GitHub</a>
 </footer>
 
-<script>
-/* ─── PANEL ROUTING ───────────────────────────────────────
-   To add a new topic:
-     1. Add onclick="openTopic('your-id')" to the card
-     2. Add an else-if branch below
-     3. Write fillYourIdExplain() and fillYourIdCode()
-───────────────────────────────────────────────────────── */
-function openTopic(id) {
-  const panel = document.getElementById('stats-panel');
-  panel.style.display = 'block';
-  document.querySelectorAll('.tab-btn').forEach((b,i)     => b.classList.toggle('active', i===0));
-  document.querySelectorAll('.tab-content').forEach((c,i) => c.classList.toggle('active', i===0));
 
-  if (id === 'descriptive') {
-    document.getElementById('stats-panel-tag').textContent   = 'Statistics \xb7 EDA';
-    document.getElementById('stats-panel-title').textContent = 'Descriptive Statistics';
-    fillDescriptiveExplain();
-    fillDescriptiveCode();
-  /* ADD MORE TOPICS BELOW
-  } else if (id === 'probability') {
-    document.getElementById('stats-panel-tag').textContent   = 'Statistics \xb7 Probability';
-    document.getElementById('stats-panel-title').textContent = 'Probability Theory';
-    fillProbabilityExplain();
-    fillProbabilityCode();
-  */
-  }
-  setTimeout(() => panel.scrollIntoView({ behavior:'smooth', block:'start' }), 60);
-}
-
-function closePanel() { document.getElementById('stats-panel').style.display = 'none'; }
-
-function switchTab(name, btn) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  document.getElementById('tab-' + name).classList.add('active');
-}
-
-/* ═══════════════════════════════════════════
-   DESCRIPTIVE STATISTICS — EXPLANATION
-   Edit the innerHTML string to update content.
-═══════════════════════════════════════════ */
-function fillDescriptiveExplain() {
-  document.getElementById('tab-explain').innerHTML = `
-<div class="explanation-grid">
-  <div class="exp-card">
-    <div class="exp-card-label">Central tendency</div>
-    <div class="exp-card-title">Mean, Median, Mode</div>
-    <p>The <strong>mean</strong> is sensitive to outliers. The <strong>median</strong> is robust — prefer it for skewed data. The <strong>mode</strong> is the most frequent value, most useful for categorical data.</p>
-  </div>
-  <div class="exp-card">
-    <div class="exp-card-label">Spread</div>
-    <div class="exp-card-title">Variance &amp; Std Deviation</div>
-    <p><strong>Variance</strong> \u03c3\xb2 = average squared distance from the mean. <strong>Standard deviation</strong> is its square root — in the same units as the data. Use sample variance (\xf7&nbsp;n\u22121) to correct for bias.</p>
-  </div>
-  <div class="exp-card">
-    <div class="exp-card-label">Shape</div>
-    <div class="exp-card-title">Skewness</div>
-    <p><strong>Positive skew:</strong> long right tail, mean &gt; median (e.g. income). <strong>Negative skew:</strong> long left tail. Values beyond \xb11 are considered notably skewed.</p>
-  </div>
-  <div class="exp-card">
-    <div class="exp-card-label">Shape</div>
-    <div class="exp-card-title">Kurtosis</div>
-    <p>Measures tail heaviness relative to a normal distribution. <strong>Leptokurtic</strong> (excess &gt; 0): heavy tails, more outliers. <strong>Platykurtic</strong> (excess &lt; 0): thin tails.</p>
-  </div>
-</div>
-
-<div class="exp-prose">
-  <h3>The five-number summary</h3>
-  <p>A quick, robust overview: <strong>min, Q1, median, Q3, max</strong>. The interquartile range IQR&nbsp;=&nbsp;Q3&nbsp;\u2212&nbsp;Q1 spans the middle 50% of data and is used to flag outliers: any point below Q1&nbsp;\u2212&nbsp;1.5\xd7IQR or above Q3&nbsp;+&nbsp;1.5\xd7IQR.</p>
-
-  <h3>When to use which measure</h3>
-  <p>For <strong>symmetric, roughly normal</strong> data: report mean \xb1 standard deviation.<br>
-  For <strong>skewed or heavy-tailed</strong> data: prefer median and IQR. Always visualise first — histogram and boxplot — before computing summaries.</p>
-
-  <h3>Common pitfalls</h3>
-  <ul>
-    <li><strong>Simpson's paradox</strong> — a trend present in grouped data can reverse when groups are combined.</li>
-    <li><strong>Ecological fallacy</strong> — group-level statistics do not necessarily describe individuals.</li>
-    <li><strong>Ignoring sample size</strong> — a mean on 5 observations is far less reliable than one on 5,000.</li>
-  </ul>
-
-  <h3>Key formulas</h3>
-  <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;margin-top:.5rem;font-family:var(--mono);font-size:12px;color:var(--text2);line-height:2.1">
-    <div>Mean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x\u0305 = (1/n) \u03a3 x\u1d62</div>
-    <div>Variance&nbsp;&nbsp; s\xb2 = 1/(n\u22121) \xb7 \u03a3(x\u1d62 \u2212 x\u0305)\xb2</div>
-    <div>Skewness&nbsp;&nbsp; \u03b3\u2081 = (1/n) \u03a3((x\u1d62 \u2212 x\u0305)/s)\xb3</div>
-    <div>Kurtosis&nbsp;&nbsp; \u03b3\u2082 = (1/n) \u03a3((x\u1d62 \u2212 x\u0305)/s)\u2074</div>
-    <div>IQR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Q3 \u2212 Q1</div>
-    <div>Outlier low&nbsp;&nbsp; Q1 \u2212 1.5 \xb7 IQR</div>
-    <div>Outlier high&nbsp; Q3 + 1.5 \xb7 IQR</div>
-  </div>
-</div>`;
-}
-
-/* ═══════════════════════════════════════════
-   DESCRIPTIVE STATISTICS — CODE
-   Edit DESC_CODE to update examples.
-═══════════════════════════════════════════ */
-let descLang = 'python';
-
-const DESC_CODE = {
-  python: {
-    filename: 'descriptive.py', dotColor: '#3b82f6',
-    code: `<span class="kw">import</span> pandas <span class="kw">as</span> pd
-<span class="kw">import</span> numpy  <span class="kw">as</span> np
-<span class="kw">from</span> scipy   <span class="kw">import</span> stats
-<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
-
-<span class="cm"># ── Load data ─────────────────────────────────────</span>
-df = pd.<span class="fn">read_csv</span>(<span class="str">"data.csv"</span>)
-x  = df[<span class="str">"value"</span>]
-
-<span class="cm"># ── Central tendency ──────────────────────────────</span>
-<span class="fn">print</span>(<span class="str">f"Mean:   {x.mean():.3f}"</span>)
-<span class="fn">print</span>(<span class="str">f"Median: {x.median():.3f}"</span>)
-<span class="fn">print</span>(<span class="str">f"Mode:   {x.mode()[0]:.3f}"</span>)
-
-<span class="cm"># ── Spread ────────────────────────────────────────</span>
-<span class="fn">print</span>(<span class="str">f"Std:    {x.std():.3f}"</span>)      <span class="cm"># sample std (ddof=1)</span>
-<span class="fn">print</span>(<span class="str">f"Var:    {x.var():.3f}"</span>)
-<span class="fn">print</span>(<span class="str">f"IQR:    {x.quantile(.75) - x.quantile(.25):.3f}"</span>)
-
-<span class="cm"># ── Shape ─────────────────────────────────────────</span>
-<span class="fn">print</span>(<span class="str">f"Skew:   {x.skew():.3f}"</span>)
-<span class="fn">print</span>(<span class="str">f"Kurt:   {x.kurtosis():.3f}"</span>)  <span class="cm"># excess kurtosis</span>
-
-<span class="cm"># ── Five-number summary ───────────────────────────</span>
-<span class="fn">print</span>(x.<span class="fn">describe</span>())
-
-<span class="cm"># ── Outlier detection (IQR rule) ─────────────────</span>
-Q1, Q3 = x.<span class="fn">quantile</span>([<span class="num">.25</span>, <span class="num">.75</span>])
-IQR    = Q3 - Q1
-low, high = Q1 - <span class="num">1.5</span>*IQR, Q3 + <span class="num">1.5</span>*IQR
-outliers = x[(x &lt; low) | (x &gt; high)]
-<span class="fn">print</span>(<span class="str">f"Outliers: {len(outliers)} points"</span>)
-
-<span class="cm"># ── Visualise ─────────────────────────────────────</span>
-fig, (ax1, ax2) = plt.<span class="fn">subplots</span>(<span class="num">1</span>, <span class="num">2</span>, figsize=(<span class="num">10</span>, <span class="num">4</span>))
-ax1.<span class="fn">hist</span>(x, bins=<span class="num">30</span>, color=<span class="str">"#6c63ff"</span>, alpha=<span class="num">0.8</span>, edgecolor=<span class="str">"none"</span>)
-ax1.<span class="fn">set_title</span>(<span class="str">"Histogram"</span>)
-ax2.<span class="fn">boxplot</span>(x, vert=<span class="kw">False</span>, patch_artist=<span class="kw">True</span>,
-           boxprops=<span class="fn">dict</span>(facecolor=<span class="str">"#6c63ff"</span>, alpha=<span class="num">0.6</span>))
-ax2.<span class="fn">set_title</span>(<span class="str">"Boxplot"</span>)
-plt.<span class="fn">tight_layout</span>(); plt.<span class="fn">show</span>()`
-  },
-  r: {
-    filename: 'descriptive.R', dotColor: '#34d399',
-    code: `<span class="cm"># ── Load data ─────────────────────────────────────</span>
-df &lt;- <span class="fn">read.csv</span>(<span class="str">"data.csv"</span>)
-x  &lt;- df$value
-
-<span class="cm"># ── Central tendency ──────────────────────────────</span>
-<span class="fn">mean</span>(x); <span class="fn">median</span>(x)
-<span class="fn">as.numeric</span>(<span class="fn">names</span>(<span class="fn">sort</span>(<span class="fn">table</span>(x), decreasing=<span class="kw">TRUE</span>)[<span class="num">1</span>]))  <span class="cm"># mode</span>
-
-<span class="cm"># ── Spread ────────────────────────────────────────</span>
-<span class="fn">sd</span>(x); <span class="fn">var</span>(x); <span class="fn">IQR</span>(x)
-
-<span class="cm"># ── Shape ─────────────────────────────────────────</span>
-<span class="fn">library</span>(e1071)
-<span class="fn">skewness</span>(x)
-<span class="fn">kurtosis</span>(x)   <span class="cm"># excess kurtosis</span>
-
-<span class="cm"># ── Five-number summary ───────────────────────────</span>
-<span class="fn">summary</span>(x)
-<span class="fn">fivenum</span>(x)    <span class="cm"># min, Q1, median, Q3, max</span>
-
-<span class="cm"># ── Outlier detection (IQR rule) ─────────────────</span>
-Q1  &lt;- <span class="fn">quantile</span>(x, <span class="num">.25</span>)
-Q3  &lt;- <span class="fn">quantile</span>(x, <span class="num">.75</span>)
-iqr &lt;- Q3 - Q1
-low  &lt;- Q1 - <span class="num">1.5</span> * iqr
-high &lt;- Q3 + <span class="num">1.5</span> * iqr
-<span class="fn">sum</span>(x &lt; low | x &gt; high)  <span class="cm"># count outliers</span>
-
-<span class="cm"># ── Visualise ─────────────────────────────────────</span>
-<span class="fn">par</span>(mfrow = <span class="fn">c</span>(<span class="num">1</span>, <span class="num">2</span>))
-<span class="fn">hist</span>(x, breaks=<span class="num">30</span>, col=<span class="str">"#6c63ff"</span>, border=<span class="kw">NA</span>,
-     main=<span class="str">"Histogram"</span>, xlab=<span class="str">"Value"</span>)
-<span class="fn">boxplot</span>(x, horizontal=<span class="kw">TRUE</span>, col=<span class="str">"#6c63ff"</span>, main=<span class="str">"Boxplot"</span>)`
-  }
-};
-
-function fillDescriptiveCode() { renderDescCode(); }
-
-function renderDescCode() {
-  const lang = DESC_CODE[descLang];
-  document.getElementById('tab-code').innerHTML = `
-<p style="color:var(--text2);font-size:.9rem;margin-bottom:1rem">
-  Computing all key descriptive measures and diagnostic plots.
-</p>
-<div class="code-toolbar">
-  ${Object.keys(DESC_CODE).map(k => `<button class="code-lang-btn ${k===descLang?'active':''}" onclick="switchDescLang('${k}')">${{python:'Python (pandas)',r:'R'}[k]}</button>`).join('')}
-</div>
-<div class="code-block">
-  <div class="code-header">
-    <div class="code-filename"><div class="code-dot" style="background:${lang.dotColor}"></div>${lang.filename}</div>
-    <button class="copy-btn" onclick="copyCode()">Copy</button>
-  </div>
-  <pre id="code-pre">${lang.code}</pre>
-</div>`;
-}
-
-function switchDescLang(lang) {
-  descLang = lang;
-  renderDescCode();
-  document.querySelectorAll('.tab-btn').forEach((b,i)     => b.classList.toggle('active', i===1));
-  document.querySelectorAll('.tab-content').forEach((c,i) => c.classList.toggle('active', i===1));
-}
-
-function copyCode() {
-  const pre = document.getElementById('code-pre');
-  if (!pre) return;
-  navigator.clipboard.writeText(pre.innerText).then(() => {
-    const btn = document.querySelector('.copy-btn');
-    if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 2000); }
-  });
-}
-</script>
 </body>
 </html>

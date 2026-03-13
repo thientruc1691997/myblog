@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Truc Do</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+
+  <style>
+    .profile-note {
+      background: var(--accent-glow);
+      border: 1px solid rgba(91,82,245,.2);
+      border-radius: 14px;
+      padding: 1rem 1.25rem;
+      font-size: .92rem;
+      color: var(--text2);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .profile-note strong,
+    .profile-note a {
+      color: var(--accent);
+    }
+
+    .projects-grid-single {
+      display: grid;
+      grid-template-columns: minmax(280px, 820px);
+      justify-content: start;
+    }
+
+    .project-card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.08);
+      border-color: rgba(91,82,245,.28);
+    }
+
+    .project-card-img {
+      position: relative;
+      height: 280px;
+      overflow: hidden;
+      background: var(--bg3);
+    }
+
+    .project-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .project-badge {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      background: rgba(17, 24, 39, 0.78);
+      color: white;
+      padding: .45rem .72rem;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      backdrop-filter: blur(8px);
+    }
+
+    .project-card-body {
+      padding: 1.35rem 1.4rem 1.4rem;
+    }
+
+    .project-title {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: .6rem;
+      color: var(--text1);
+    }
+
+    .project-desc {
+      font-size: .94rem;
+      line-height: 1.8;
+      color: var(--text2);
+      margin-bottom: 1rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+      margin-bottom: 1rem;
+    }
+
+    .tag {
+      background: var(--bg3);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: .35rem .65rem;
+      font-size: .76rem;
+      font-family: var(--mono);
+    }
+
+    .project-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: .9rem;
+      color: var(--text3);
+    }
+
+    .project-open {
+      color: var(--accent);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><div class="nav-logo-dot"></div>Truc Do</a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">About</a>
+    <a class="nav-link" href="stats.html">Statistics</a>
+    <a class="nav-link" href="ml.html">Machine Learning</a>
+    <a class="nav-link" href="dl.html">Deep Learning</a>
+    <a class="nav-link active" href="projects.html">Projects</a>
+  </div>
+</nav>
+
+<div class="page-intro">
+  <div class="page-intro-inner">
+    <div class="section-label">04 — Projects</div>
+    <h1>My Projects</h1>
+    <p class="page-intro-desc">
+      This page will include more of my projects in the future.
+      For now, I am sharing one project that is very special to me.
+    </p>
+  </div>
+</div>
+
+<div class="wrap section">
+
+  <div class="profile-note">
+    This page is still being updated. More projects will be added later.
+  </div>
+
+  <div class="projects-grid-single">
+    <a class="project-card-link" href="project-elderly-ai.html">
+      <article class="project-card">
+        <div class="project-card-img">
+          <img src="elderly-ai-cover.jpg" alt="AI for elderly people project cover">
+          <div class="project-badge">Hackathon Project</div>
+        </div>
+
+        <div class="project-card-body">
+          <div class="project-title">AI for Elderly People</div>
+
+          <p class="project-desc">
+            A hackathon project created for NextLevelChallenge in Leuven.
+            Our team built and presented the idea of an AI companion that can support elderly people in daily life,
+            including simple conversation, medication help, health support, and emergency assistance.
+          </p>
+
+          <div class="project-tags">
+            <span class="tag">AI</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">React</span>
+            <span class="tag">Healthcare</span>
+            <span class="tag">Prototype</span>
+          </div>
+
+          <div class="project-footer">
+            <span>This project page has a full story and details</span>
+            <span class="project-open">Read more →</span>
+          </div>
+        </div>
+      </article>
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  Truc Do —
+  <a href="https://www.linkedin.com/in/nguyen-thien-truc-do-263109178/" target="_blank">LinkedIn</a> —
+  <a href="https://github.com/thientruc1691997" target="_blank">GitHub</a>
+</footer>
+
+</body>
+</html>

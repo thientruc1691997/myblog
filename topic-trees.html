@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decision Trees &amp; Random Forests — Truc Do</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+
+  <style>
+    :root{
+      --page-max: 1200px;
+    }
+
+    .article-hero{
+      padding: 3.5rem 0 2rem;
+    }
+
+    .article-hero-inner{
+      max-width: var(--page-max);
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    .hero-panel{
+      background: linear-gradient(180deg, rgba(91,82,245,.08) 0%, rgba(91,82,245,.03) 100%);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 2rem 2rem 1.7rem;
+      box-shadow: var(--shadow);
+    }
+
+    .topic-breadcrumb{
+      margin-bottom: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .45rem;
+      color: var(--text3);
+      font-size: .88rem;
+    }
+
+    .topic-breadcrumb a{
+      color: var(--text2);
+      text-decoration: none;
+    }
+
+    .topic-breadcrumb a:hover{
+      color: var(--accent);
+    }
+
+    .hero-kicker{
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .8rem;
+    }
+
+    .hero-panel h1{
+      font-family: var(--display);
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1.04;
+      margin: 0 0 .9rem;
+    }
+
+    .hero-desc{
+      max-width: 820px;
+      color: var(--text2);
+      font-size: 1rem;
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+
+    .hero-meta{
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+    }
+
+    .hero-meta .tag{
+      border-radius: 999px;
+      padding: .42rem .72rem;
+      font-size: .78rem;
+    }
+
+    .article-layout{
+      max-width: var(--page-max);
+      margin: 0 auto;
+      padding: 0 1.25rem 4rem;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 1.4rem;
+      align-items: start;
+    }
+
+    .article-sidebar{
+      position: sticky;
+      top: 100px;
+    }
+
+    .toc-card{
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 1rem;
+    }
+
+    .toc-title{
+      font-family: var(--display);
+      font-size: 1rem;
+      margin-bottom: .8rem;
+    }
+
+    .toc-list{
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: .35rem;
+    }
+
+    .toc-list a{
+      display: block;
+      text-decoration: none;
+      color: var(--text2);
+      font-size: .92rem;
+      padding: .68rem .75rem;
+      border-radius: 12px;
+      transition: .2s ease;
+    }
+
+    .toc-list a:hover,
+    .toc-list a.active{
+      background: var(--bg3);
+      color: var(--accent);
+    }
+
+    .article-main{
+      display: grid;
+      gap: 1rem;
+    }
+
+    .topic-section{
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .topic-section-head{
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+      padding: 1.15rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(91,82,245,.05) 0%, rgba(91,82,245,.015) 100%);
+    }
+
+    .topic-section-num{
+      min-width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--accent);
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .03em;
+      flex-shrink: 0;
+    }
+
+    .topic-section-title-wrap h2{
+      margin: 0;
+      font-family: var(--display);
+      font-size: 1.28rem;
+      line-height: 1.2;
+    }
+
+    .topic-section-title-wrap .section-sub{
+      color: var(--text3);
+      font-size: .85rem;
+      margin-top: .2rem;
+    }
+
+    .topic-section-body{
+      padding: 1.3rem 1.35rem 1.45rem;
+    }
+
+    .topic-section-body p{
+      color: var(--text2);
+      font-size: .96rem;
+      line-height: 1.9;
+      margin: 0 0 .95rem;
+    }
+
+    .topic-section-body ul{
+      margin: 0 0 1rem;
+      padding-left: 1.1rem;
+      color: var(--text2);
+      line-height: 1.85;
+      font-size: .95rem;
+    }
+
+    .topic-section-body li{
+      margin-bottom: .4rem;
+    }
+
+    .callout{
+      margin: 1rem 0;
+      padding: 1rem 1.05rem;
+      border-radius: 14px;
+      background: var(--accent-glow);
+      border: 1px solid rgba(91,82,245,.18);
+      color: var(--text2);
+      line-height: 1.8;
+      font-size: .94rem;
+    }
+
+    .formula-box{
+      margin: 1rem 0;
+      padding: 1rem 1.05rem;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(91,82,245,.06) 0%, rgba(91,82,245,.025) 100%);
+      border: 1px solid rgba(91,82,245,.14);
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: .86rem;
+      line-height: 1.9;
+      color: var(--text1);
+      white-space: pre-wrap;
+    }
+
+    .img-slot{
+      margin: 1rem 0 1.1rem;
+      border-radius: 18px;
+      border: 1px dashed var(--border);
+      background: linear-gradient(135deg, var(--bg3) 0%, var(--surface2) 100%);
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.2rem;
+    }
+
+    .img-slot-hint{
+      color: var(--text3);
+      font-size: .9rem;
+      line-height: 1.7;
+    }
+
+    .img-slot-caption{
+      margin-top: .65rem;
+      color: var(--text3);
+      font-size: .82rem;
+    }
+
+    .content-grid-2{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .95rem;
+      margin: 1rem 0;
+    }
+
+    .content-card{
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem 1rem .95rem;
+    }
+
+    .content-card-label{
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--accent);
+      margin-bottom: .5rem;
+    }
+
+    .content-card h4{
+      font-family: var(--display);
+      font-size: 1rem;
+      margin: 0 0 .45rem;
+    }
+
+    .content-card p{
+      margin: 0;
+      font-size: .92rem;
+      line-height: 1.8;
+    }
+
+    .code-shell{
+      margin-top: .9rem;
+    }
+
+    .code-toolbar{
+      display: flex;
+      gap: .55rem;
+      flex-wrap: wrap;
+      margin-bottom: .8rem;
+    }
+
+    .code-lang-btn{
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text2);
+      border-radius: 999px;
+      padding: .5rem .85rem;
+      font-size: .83rem;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .code-lang-btn.active{
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .code-block{
+      border: 1px solid var(--border);
+      background: #0f172a;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .code-header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .8rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.02);
+    }
+
+    .code-filename{
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      color: rgba(255,255,255,.88);
+      font-family: var(--mono);
+      font-size: .8rem;
+    }
+
+    .code-dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .copy-btn{
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: white;
+      border-radius: 10px;
+      padding: .45rem .8rem;
+      font-size: .8rem;
+      cursor: pointer;
+    }
+
+    #code-pre{
+      margin: 0;
+      padding: 1rem 1rem 1.1rem;
+      overflow-x: auto;
+      color: #e5e7eb;
+      font-family: var(--mono);
+      font-size: .83rem;
+      line-height: 1.75;
+    }
+
+    #code-pre .kw{ color:#93c5fd; }
+    #code-pre .fn{ color:#f9a8d4; }
+    #code-pre .cls{ color:#c4b5fd; }
+    #code-pre .str{ color:#86efac; }
+    #code-pre .num{ color:#fdba74; }
+    #code-pre .cm{ color:#94a3b8; }
+
+    @media (max-width: 980px){
+      .article-layout{
+        grid-template-columns: 1fr;
+      }
+
+      .article-sidebar{
+        position: static;
+      }
+    }
+
+    @media (max-width: 720px){
+      .hero-panel{
+        padding: 1.4rem 1.2rem 1.2rem;
+      }
+
+      .content-grid-2{
+        grid-template-columns: 1fr;
+      }
+
+      .topic-section-head{
+        align-items: flex-start;
+      }
+
+      .topic-section-body{
+        padding: 1.05rem 1rem 1.15rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html"><div class="nav-logo-dot"></div>Truc Do</a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">About</a>
+    <a class="nav-link" href="stats.html">Statistics</a>
+    <a class="nav-link active" href="ml.html">Machine Learning</a>
+    <!-- <a class="nav-link" href="dl.html">Deep Learning</a> -->
+    <a class="nav-link" href="projects.html">Projects</a>
+  </div>
+</nav>
+
+<section class="article-hero">
+  <div class="article-hero-inner">
+    <div class="hero-panel">
+      <div class="topic-breadcrumb">
+        <a href="ml.html">Machine Learning</a>
+        <span>&rsaquo;</span>
+        <span>Decision Trees &amp; Random Forests</span>
+      </div>
+
+      <div class="hero-kicker">Machine Learning</div>
+      <h1>Decision Trees &amp; Random Forests</h1>
+      <p class="hero-desc">
+        Tree-based models are among the most intuitive machine learning algorithms.
+        A single decision tree is easy to interpret, while a random forest combines many trees to achieve stronger performance on tabular data with very little preprocessing.
+      </p>
+
+      <div class="hero-meta">
+        <span class="tag">Classification</span>
+        <span class="tag">Regression</span>
+        <span class="tag">Ensembles</span>
+        <span class="tag">sklearn</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="article-layout">
+
+  <aside class="article-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">Contents</div>
+      <ol class="toc-list">
+        <li><a class="toc-item active" href="#tree">01. Decision Tree</a></li>
+        <li><a class="toc-item" href="#split">02. Splitting Criteria</a></li>
+        <li><a class="toc-item" href="#biasvar">03. Bias-Variance</a></li>
+        <li><a class="toc-item" href="#forest">04. Random Forest</a></li>
+        <li><a class="toc-item" href="#params">05. Hyperparameters</a></li>
+        <li><a class="toc-item" href="#code">06. Code</a></li>
+      </ol>
+    </div>
+  </aside>
+
+  <!-- <main class="article-main">
+
+    <section class="topic-section" id="tree">
+      <div class="topic-section-head">
+        <div class="topic-section-num">01</div>
+        <div class="topic-section-title-wrap">
+          <h2>How a Decision Tree Works</h2>
+          <div class="section-sub">Decision Tree</div>
+        </div>
+      </div>
+      <div class="topic-section-body">
+        <p>
+          A decision tree splits the feature space into smaller regions using binary rules.
+          At each internal node, the algorithm chooses the feature and threshold that best separates the classes in classification, or reduces variance in regression.
+          The final prediction is stored in the leaf nodes.
+        </p>
+
+        <div class="callout">
+          <strong>CART</strong> (Classification and Regression Trees) searches all possible features and thresholds at each node to find the best split.
+          This is a greedy strategy, not a globally optimal one.
+        </div>
+
+        <div class="img-slot">
+          <span class="img-slot-hint">[ Figure 1 — Decision tree structure: internal nodes, split rules, and leaves ]</span>
+        </div>
+
+        <p>
+          The process is recursive:
+          find the best split, create two child nodes, and repeat until a stopping rule is reached,
+          such as maximum depth, minimum samples per leaf, or no further impurity gain.
+        </p>
+      </div>
+    </section>
+
+    <section class="topic-section" id="split">
+      <div class="topic-section-head">
+        <div class="topic-section-num">02</div>
+        <div class="topic-section-title-wrap">
+          <h2>Gini Impurity &amp; Entropy</h2>
+          <div class="section-sub">Splitting Criteria</div>
+        </div>
+      </div>
+      <div class="topic-section-body">
+        <p>
+          A splitting criterion measures how pure a node is.
+          A pure node contains observations from only one class, so impurity is zero.
+        </p>
+
+        <div class="formula-box">Gini:    G(t) = 1 − Σ pᵢ²
+Entropy: H(t) = −Σ pᵢ log₂ pᵢ
+Gain:    IG   = H(parent) − weighted average H(children)
+
+For regression:
+MSE = (1/n) Σ (yᵢ − ŷ)²</div>
+
+        <div class="content-grid-2">
+          <div class="content-card">
+            <div class="content-card-label">Gini</div>
+            <h4>Fast and effective</h4>
+            <p>
+              Gini is the default in sklearn.
+              It is simple, fast, and often performs very well in practice.
+            </p>
+          </div>
+
+          <div class="content-card">
+            <div class="content-card-label">Entropy</div>
+            <h4>Information-based split</h4>
+            <p>
+              Entropy is based on information theory.
+              It is slightly more expensive because it uses logarithms and may produce different split choices.
+            </p>
+          </div>
+        </div>
+
+        <div class="img-slot">
+          <span class="img-slot-hint">[ Figure 2 — Gini and entropy curves as class probability changes ]</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="topic-section" id="biasvar">
+      <div class="topic-section-head">
+        <div class="topic-section-num">03</div>
+        <div class="topic-section-title-wrap">
+          <h2>The Bias-Variance Tradeoff</h2>
+          <div class="section-sub">Bias-Variance</div>
+        </div>
+      </div>
+      <div class="topic-section-body">
+        <p>
+          A very deep tree can fit the training data almost perfectly.
+          This means low bias, but also high variance.
+          Small changes in the training set can produce a very different tree.
+        </p>
+
+        <div class="content-grid-2">
+          <div class="content-card">
+            <div class="content-card-label">Deep tree</div>
+            <h4>Low bias, high variance</h4>
+            <p>
+              Fits training data very closely, but often overfits and becomes unstable.
+            </p>
+          </div>
+
+          <div class="content-card">
+            <div class="content-card-label">Shallow tree</div>
+            <h4>High bias, low variance</h4>
+            <p>
+              More stable across samples, but may miss important structure and underfit.
+            </p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>Regularization</strong> helps control overfitting.
+          Common options are <code>max_depth</code>, <code>min_samples_leaf</code>, and <code>ccp_alpha</code>.
+        </div>
+
+        <div class="img-slot">
+          <span class="img-slot-hint">[ Figure 3 — Decision boundaries with different tree depths ]</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="topic-section" id="forest">
+      <div class="topic-section-head">
+        <div class="topic-section-num">04</div>
+        <div class="topic-section-title-wrap">
+          <h2>Random Forest — Ensemble of Trees</h2>
+          <div class="section-sub">Random Forest</div>
+        </div>
+      </div>
+      <div class="topic-section-body">
+        <p>
+          A random forest trains many trees instead of just one.
+          Each tree uses a different bootstrap sample, and each split only considers a random subset of features.
+          Final predictions are averaged for regression or decided by majority vote for classification.
+        </p>
+
+        <div class="formula-box">Bootstrap:      n rows sampled with replacement
+Feature subset: √p per split (classification), p/3 (regression)
+Prediction:     (1/B) Σ fᵢ(x)   or   majority vote</div>
+
+        <div class="img-slot">
+          <span class="img-slot-hint">[ Figure 4 — Bootstrap → many trees → aggregated prediction ]</span>
+        </div>
+
+        <p>
+          Averaging helps because each tree has high variance.
+          If the trees are less correlated, the final ensemble becomes much more stable.
+          Random feature selection helps reduce this correlation.
+        </p>
+
+        <div class="content-grid-2">
+          <div class="content-card">
+            <div class="content-card-label">OOB error</div>
+            <h4>Free validation estimate</h4>
+            <p>
+              Since each tree only sees part of the data, the unused samples can be used as a built-in validation set.
+            </p>
+          </div>
+
+          <div class="content-card">
+            <div class="content-card-label">Feature importance</div>
+            <h4>Useful but not perfect</h4>
+            <p>
+              Random forests can estimate feature importance quickly, but impurity-based importance may be biased.
+              Permutation importance is often fairer.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="topic-section" id="params">
+      <div class="topic-section-head">
+        <div class="topic-section-num">05</div>
+        <div class="topic-section-title-wrap">
+          <h2>Key Hyperparameters</h2>
+          <div class="section-sub">Hyperparameters</div>
+        </div>
+      </div>
+      <div class="topic-section-body">
+        <div class="content-grid-2">
+          <div class="content-card">
+            <div class="content-card-label">n_estimators</div>
+            <h4>Number of trees</h4>
+            <p>More trees usually make the forest more stable, though computation increases.</p>
+          </div>
+
+          <div class="content-card">
+            <div class="content-card-label">max_depth</div>
+            <h4>Maximum tree depth</h4>
+            <p>Controls how complex each tree can become. Lower values often reduce overfitting.</p>
+          </div>
+
+          <div class="content-card">
+            <div class="content-card-label">min_samples_leaf</div>
+            <h4>Minimum samples per leaf</h4>
+            <p>Prevents very small leaves and reduces noisy splits.</p>
+          </div>
+
+          <div class="content-card">
+            <div class="content-card-label">max_features</div>
+            <h4>Features per split</h4>
+            <p>Smaller values increase randomness and reduce correlation between trees.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="topic-section" id="code">
+      <div class="topic-section-head">
+        <div class="topic-section-num">06</div>
+        <div class="topic-section-title-wrap">
+          <h2>Implementation (sklearn)</h2>
+          <div class="section-sub">Code</div>
+        </div>
+      </div>
+      <div class="topic-section-body">
+        <p>
+          Below is a simple implementation of a Decision Tree and a Random Forest on the Iris dataset.
+        </p>
+        <div class="code-shell" id="code-area"></div>
+      </div>
+    </section>
+
+  </main>
+</div> -->
+
+<footer>
+  Truc Do — Machine Learning —
+  <a href="https://www.linkedin.com/in/nguyen-thien-truc-do-263109178/" target="_blank">LinkedIn</a> —
+  <a href="https://github.com/thientruc1691997" target="_blank">GitHub</a>
+</footer>
+
+<script>
+const sections = document.querySelectorAll('.topic-section');
+const tocItems = document.querySelectorAll('.toc-item');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    if (window.scrollY >= section.offsetTop - 140) current = section.id;
+  });
+  tocItems.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  });
+});
+
+let codeLang = 'dt';
+const CODES = {
+  dt: {
+    filename: 'decision_tree.py',
+    dotColor: '#34d399',
+    code: `<span class="kw">from</span> sklearn.tree <span class="kw">import</span> DecisionTreeClassifier, export_text, plot_tree
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.datasets <span class="kw">import</span> load_iris
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> classification_report
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+iris = <span class="fn">load_iris</span>()
+X, y = iris.data, iris.target
+X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(
+    X, y, test_size=<span class="num">0.2</span>, random_state=<span class="num">42</span>, stratify=y
+)
+
+tree = <span class="cls">DecisionTreeClassifier</span>(
+    max_depth=<span class="num">4</span>,
+    min_samples_leaf=<span class="num">5</span>,
+    criterion=<span class="str">"gini"</span>,
+    random_state=<span class="num">42</span>
+)
+tree.<span class="fn">fit</span>(X_train, y_train)
+
+<span class="fn">print</span>(<span class="fn">classification_report</span>(
+    y_test,
+    tree.<span class="fn">predict</span>(X_test),
+    target_names=iris.target_names
+))
+
+<span class="fn">print</span>(<span class="fn">export_text</span>(tree, feature_names=<span class="fn">list</span>(iris.feature_names)))
+
+<span class="kw">for</span> name, imp <span class="kw">in</span> <span class="fn">zip</span>(iris.feature_names, tree.feature_importances_):
+    <span class="fn">print</span>(<span class="str">f"{name:28s} {imp:.4f}"</span>)
+
+fig, ax = plt.<span class="fn">subplots</span>(figsize=(<span class="num">12</span>, <span class="num">6</span>))
+<span class="fn">plot_tree</span>(
+    tree,
+    feature_names=iris.feature_names,
+    class_names=iris.target_names,
+    filled=<span class="kw">True</span>,
+    ax=ax
+)
+plt.<span class="fn">tight_layout</span>()
+plt.<span class="fn">show</span>()`
+  },
+
+  rf: {
+    filename: 'random_forest.py',
+    dotColor: '#6c63ff',
+    code: `<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestClassifier
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> cross_val_score, train_test_split
+<span class="kw">from</span> sklearn.datasets <span class="kw">import</span> load_iris
+<span class="kw">from</span> sklearn.inspection <span class="kw">import</span> permutation_importance
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+iris = <span class="fn">load_iris</span>()
+X, y = iris.data, iris.target
+X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(
+    X, y, test_size=<span class="num">0.2</span>, random_state=<span class="num">42</span>, stratify=y
+)
+
+rf = <span class="cls">RandomForestClassifier</span>(
+    n_estimators=<span class="num">200</span>,
+    min_samples_leaf=<span class="num">2</span>,
+    max_features=<span class="str">"sqrt"</span>,
+    oob_score=<span class="kw">True</span>,
+    n_jobs=<span class="num">-1</span>,
+    random_state=<span class="num">42</span>
+)
+
+rf.<span class="fn">fit</span>(X_train, y_train)
+<span class="fn">print</span>(<span class="str">f"Test: {rf.score(X_test, y_test):.4f}  OOB: {rf.oob_score_:.4f}"</span>)
+
+cv = <span class="fn">cross_val_score</span>(rf, X, y, cv=<span class="num">5</span>)
+<span class="fn">print</span>(<span class="str">f"5-fold CV: {cv.mean():.4f} +/- {cv.std():.4f}"</span>)
+
+perm = <span class="fn">permutation_importance</span>(
+    rf, X_test, y_test, n_repeats=<span class="num">20</span>, random_state=<span class="num">42</span>
+)
+
+idx = perm.importances_mean.argsort()[::-<span class="num">1</span>]
+<span class="kw">for</span> i <span class="kw">in</span> idx:
+    <span class="fn">print</span>(<span class="str">f"{iris.feature_names[i]:28s} {perm.importances_mean[i]:.4f}"</span>)
+
+fig, ax = plt.<span class="fn">subplots</span>(figsize=(<span class="num">7</span>, <span class="num">3</span>))
+ax.<span class="fn">barh</span>(
+    [iris.feature_names[i] <span class="kw">for</span> i <span class="kw">in</span> idx],
+    perm.importances_mean[idx]
+)
+ax.<span class="fn">set_xlabel</span>(<span class="str">"Permutation Importance"</span>)
+plt.<span class="fn">tight_layout</span>()
+plt.<span class="fn">show</span>()`
+  }
+};
+
+function renderCode() {
+  const lang = CODES[codeLang];
+  document.getElementById('code-area').innerHTML = `
+    <div class="code-toolbar">
+      ${Object.keys(CODES).map(k => `
+        <button class="code-lang-btn ${k === codeLang ? 'active' : ''}" onclick="switchLang('${k}')">
+          ${k === 'dt' ? 'Decision Tree' : 'Random Forest'}
+        </button>
+      `).join('')}
+    </div>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-filename">
+          <div class="code-dot" style="background:${lang.dotColor}"></div>
+          ${lang.filename}
+        </div>
+        <button class="copy-btn" onclick="copyCode()">Copy</button>
+      </div>
+      <pre id="code-pre">${lang.code}</pre>
+    </div>
+  `;
+}
+
+function switchLang(lang) {
+  codeLang = lang;
+  renderCode();
+}
+
+function copyCode() {
+  const pre = document.getElementById('code-pre');
+  if (!pre) return;
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    if (btn) {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    }
+  });
+}
+
+renderCode();
+</script>
+</body>
+</html>
